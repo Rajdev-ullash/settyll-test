@@ -1,24 +1,44 @@
 import logo from './logo.svg';
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import Home from './Components/Home/Home';
+import Details from './Components/Details/Details';
+import { createContext, useState } from 'react';
+import Navbar from './Components/Navbar/Navbar';
+import Dashboard from './Components/Dashboard/Dashboard';
+
+export const UserContext = createContext();
+
 
 function App() {
+  const [data, setData] = useState([]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserContext.Provider value={{allData:[data, setData]}}>
+     <Router>
+       <Switch>
+         <Route exact path="/">
+           <Navbar></Navbar>
+            <Home></Home>
+         </Route>
+         <Route path="/home">
+           <Navbar></Navbar>
+            <Home></Home>
+         </Route>
+         <Route path="/data/:id">
+           <Navbar></Navbar>
+            <Details></Details>
+         </Route>
+         <Route path="/dashboard">
+           <Navbar></Navbar>
+            <Dashboard></Dashboard>
+         </Route>
+       </Switch>
+     </Router>
+     </UserContext.Provider>
   );
 }
 
